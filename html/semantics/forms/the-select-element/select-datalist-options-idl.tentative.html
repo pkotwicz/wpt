@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<link rel=author href="mailto:jarhar@chromium.org">
+<link rel=help href="https://github.com/whatwg/html/issues/9799">
+<script src="/resources/testharness.js"></script>
+<script src="/resources/testharnessreport.js"></script>
+
+<select>
+  <datalist>
+    <option class=one>one</option>
+    <div>
+      <option class=two>two</option>
+    </div>
+    <option class=three>three</option>
+  </datalist>
+</select>
+
+<script>
+const select = document.querySelector('select');
+const firstOption = document.querySelector('option.one');
+const secondOption = document.querySelector('option.two');
+const thirdOption = document.querySelector('option.three');
+
+test(() => {
+  assert_equals(select.length, 3, 'select.length');
+  assert_equals(select.options.length, 3, 'select.options.length');
+  assert_equals(select.options[0], firstOption, 'select.options[0]');
+  assert_equals(select.options[1], secondOption, 'select.options[1]');
+  assert_equals(select.options[2], thirdOption, 'select.options[2]');
+
+  assert_equals(select.value, 'one', 'initial select.value');
+  select.value = 'two';
+  assert_equals(select.value, 'two', 'select.value after modifying');
+}, 'Option elements should work even if they arent direct children of a select element.');
+</script>
