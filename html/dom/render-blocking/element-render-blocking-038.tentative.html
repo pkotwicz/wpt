@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<head>
+<script src="/resources/testharness.js"></script>
+<script src="/resources/testharnessreport.js"></script>
+<script src="support/utils.js"></script>
+<title>link rel=expect: elements in shadow trees should be ignored</title>
+
+<link rel=expect href="#second" blocking="render">
+<script>
+async_test((t) => {
+  requestAnimationFrame(() => {
+    t.step(() => assert_true(!!document.getElementById("second")));
+    t.step(() => assert_true(!!document.getElementById("last")), "the second element should be ignored because it's in the shadow DOM");
+    t.done();
+  });
+}, "elements in shadow root do not affect <link rel=expect>");
+</script>
+</head>
+<body>
+  <div id="first"></div>
+  <script>
+          generateParserDelay();
+  </script>
+  <div id="host"></div>
+  <script>
+    const shadow = document.querySelector("#host").attachShadow({mode: "open"})
+    const second = document.createElement("div");
+    second.id = "second";
+    shadow.append(second);
+  </script>
+  <script>
+          generateParserDelay();
+  </script>
+  <div id="last"></div>
+</body>
