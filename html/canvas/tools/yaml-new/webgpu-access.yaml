@@ -1,0 +1,10 @@
+- name: 2d.webgpuaccess.tentative.getTextureFormat.rgba8
+  desc: getTextureFormat() returns RGBA8 on a typical context
+  code: |
+    @assert ctx.getTextureFormat() === "rgba8unorm";
+
+- name: 2d.webgpuaccess.tentative.getTextureFormat.rgba16f
+  desc: getTextureFormat() returns RGBA16F for a float16 context
+  attributes: '{colorSpace: "display-p3", pixelFormat: "float16"}'
+  code: |
+    @assert ctx.getTextureFormat() === "rgba16float";
